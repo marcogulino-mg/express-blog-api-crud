@@ -1,5 +1,6 @@
 //posts.js Array of OBJECT IMPORT
 const postsList = require("../data/posts");
+const { param } = require("../routers/posts");
 
 //INDEX
 function index(req, res) {
@@ -8,7 +9,7 @@ function index(req, res) {
 
 //SHOW
 function show(req, res) {
-  res.json(postsList[req.params.id]);
+  res.json(postsList[parseInt(req.params.id)-1]);
 }
 
 //STORE
@@ -28,7 +29,18 @@ function modify(req, res) {
 
 //DESTROY
 function destroy(req, res) {
-  res.send("Cancello il post con id: " + req.params.id);
+  //ID from URL
+  const id = parseInt(req.params.id);
+
+  //Find post using ID
+  const post = postsList.find(post => post.id === id);
+  
+  //Removing the post with the corresponding id
+  postsList.splice(postsList.indexOf(post), 1);
+  console.log(postsList);
+
+  //RETURN STATUS
+  res.sendStatus(204);
 }
 
 //MODULE EXPORT
