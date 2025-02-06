@@ -1,3 +1,6 @@
+//posts.js Array of OBJECT IMPORT
+const postsList = require("../data/posts");
+
 //INDEX
 function index(req, res) {
   res.send("Stampo tutti i post");
