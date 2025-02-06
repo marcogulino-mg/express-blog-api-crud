@@ -3,14 +3,37 @@ const postsList = require("../data/posts");
 
 //INDEX
 function index(req, res) {
-  res.json(postsList);
+  //postFiltered equals to postsList
+  let postFiltered = postsList;
+
+  //Find posts with a certain tag
+  if(req.query.tags) {
+    postFiltered = postsList.filter((post) => post.tags.includes(req.query.tags));
+  }
+
+  res.json(postFiltered);
 }
 
 //SHOW
 function show(req, res) {
-  //Find posts with a certain tag
-  const posts = postsList.filter((posts) => posts.tags.includes(req.params.tags));
-  res.json(posts);
+  //ID from URL
+  const id = parseInt(req.params.id);
+  
+  //Find post with a certain id
+  const postFiltered = postsList.find((post) => post.id === id);
+  //Check if posts is undefined
+  if (!postFiltered) {
+    //404 Status
+    res.status(404);
+
+    //Error message JSON
+    return res.json({
+      error: "Not Found",
+      message: "Post non trovato",
+    });
+  }
+
+  res.json(postFiltered);
 }
 
 //STORE
@@ -35,6 +58,18 @@ function destroy(req, res) {
 
   //Find post using ID
   const post = postsList.find((post) => post.id === id);
+
+  //Check if post is undefined
+  if (!post) {
+    //404 Status
+    res.status(404);
+
+    //Error message JSON
+    return res.json({
+      error: "Not Found",
+      message: "Post non trovato",
+    });
+  }
 
   //Removing the post with the corresponding id
   postsList.splice(postsList.indexOf(post), 1);

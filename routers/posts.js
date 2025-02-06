@@ -9,7 +9,7 @@ const postController = require("../controllers/postController");
 router.get("/", postController.index);
 
 //SHOW
-router.get("/:tags", postController.show);
+router.get("/:id", postController.show);
 
 //STORE
 router.post("/", postController.store);
