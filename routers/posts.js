@@ -3,37 +3,27 @@ const express = require("express");
 const router = express.Router();
 //posts.js Array of OBJECT IMPORT
 const postsList = require("../data/posts");
+//CONTROLLERS IMPORT
+const postController = require("../controllers/postController");
 
 //CRUD Routes of posts
 //INDEX
-router.get("/", (req, res) => {
-  res.json(postsList);
-});
+router.get("/", postController.index);
 
 //SHOW
-router.get("/:id", (req, res) => {
-  res.json(postsList[req.params.id]);
-});
+router.get("/:id", postController.show);
 
 //STORE
-router.post("/", (req, res) => {
-  res.send("Creazione nuovo post");
-});
+router.post("/", postController.store);
 
 //UPDATE
-router.put("/:id", (req, res) => {
-  res.send("Modifica completa del post con ID: " + req.params.id);
-});
+router.put("/:id", postController.update);
 
 //MODIFY
-router.patch("/:id", (req, res) => {
-  res.send("Modifica parziale del post con ID: " + req.params.id);
-});
+router.patch("/:id", postController.modify);
 
 //DELETE
-router.delete("/:id", (req, res) => {
-  res.send("Cancellazione del post con ID: " + req.params.id);
-});
+router.delete("/:id", postController.destroy);
 
 //Router EXPORT
 module.exports = router;
