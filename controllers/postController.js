@@ -3,7 +3,7 @@ const postsList = require("../data/posts");
 
 //INDEX
 function index(req, res) {
-  res.send("Stampo tutti i post");
+  res.json(postsList);
 }
 
 //SHOW
