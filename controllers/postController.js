@@ -8,7 +8,7 @@ function index(req, res) {
 
 //SHOW
 function show(req, res) {
-  res.send("Stampo i post con id: " + req.params.id);
+  res.json(postsList[req.params.id]);
 }
 
 //STORE
