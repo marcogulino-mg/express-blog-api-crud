@@ -1,6 +1,5 @@
 //posts.js Array of OBJECT IMPORT
 const postsList = require("../data/posts");
-const { param } = require("../routers/posts");
 
 //INDEX
 function index(req, res) {
@@ -9,7 +8,9 @@ function index(req, res) {
 
 //SHOW
 function show(req, res) {
-  res.json(postsList[parseInt(req.params.id)-1]);
+  //Find posts with a certain tag
+  const posts = postsList.filter((posts) => posts.tags.includes(req.params.tags));
+  res.json(posts);
 }
 
 //STORE
@@ -33,8 +34,8 @@ function destroy(req, res) {
   const id = parseInt(req.params.id);
 
   //Find post using ID
-  const post = postsList.find(post => post.id === id);
-  
+  const post = postsList.find((post) => post.id === id);
+
   //Removing the post with the corresponding id
   postsList.splice(postsList.indexOf(post), 1);
   console.log(postsList);
