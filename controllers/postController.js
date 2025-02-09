@@ -56,7 +56,7 @@ function store(req, res) {
   postsList.push(newPost);
 
   //Check
-  console.log(newPost);
+  console.log(postsList);
 
   //Return status e il post creato
   res.status(201);
@@ -65,7 +65,34 @@ function store(req, res) {
 
 //UPDATE
 function update(req, res) {
-  res.send("Modifico interamente il post con id: " + req.params.id);
+  //Converto parametro dinamico da string a number
+  const id = parseInt(req.params.id);
+
+  //Cerchiamo il post tramite l'id
+  const post = postsList.find((post) => post.id === id);
+
+  //Controlliamo se post è undefined
+  if (!post) {
+    //Imposto lo status 404 (perchè in EXPRESS lo status di default è 200)
+    res.status(404);
+
+    //JSON con l'errore
+    return res.json({
+      error: "Not Found",
+      message: "Post non trovato",
+    });
+  }
+
+  //Modifichiamo i valori del post trovato col find
+  post.title = req.body.title;
+  post.content = req.body.content;
+  post.image = req.body.image;
+  post.tags = req.body.tags;
+
+  //Return post modificato
+  res.send(post);
+
+  console.log(post);
 }
 
 //MODIFY
