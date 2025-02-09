@@ -7,8 +7,10 @@ function index(req, res) {
   let postFiltered = postsList;
 
   //Find posts with a certain tag
-  if(req.query.tags) {
-    postFiltered = postsList.filter((post) => post.tags.includes(req.query.tags));
+  if (req.query.tags) {
+    postFiltered = postsList.filter((post) =>
+      post.tags.includes(req.query.tags)
+    );
   }
 
   res.json(postFiltered);
@@ -18,7 +20,7 @@ function index(req, res) {
 function show(req, res) {
   //ID from URL
   const id = parseInt(req.params.id);
-  
+
   //Find post with a certain id
   const postFiltered = postsList.find((post) => post.id === id);
   //Check if posts is undefined
@@ -38,7 +40,27 @@ function show(req, res) {
 
 //STORE
 function store(req, res) {
-  res.send("Aggiungo un post");
+  //Creiamo nuovo ID da assegnare al nuovo post
+  const newId = postsList[postsList.length - 1].id + 1;
+
+  //Creazione di un nuovo oggetto post
+  const newPost = {
+    id: newId,
+    title: req.body.title,
+    content: req.body.content,
+    image: req.body.image,
+    tags: req.body.tags,
+  };
+
+  //Aggiungo il nuovo post all'array di oggetti posts
+  postsList.push(newPost);
+
+  //Check
+  console.log(newPost);
+
+  //Return status e il post creato
+  res.status(201);
+  res.json(newPost);
 }
 
 //UPDATE
