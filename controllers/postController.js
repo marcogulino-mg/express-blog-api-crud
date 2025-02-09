@@ -97,7 +97,40 @@ function update(req, res) {
 
 //MODIFY
 function modify(req, res) {
-  res.send("Modifico parzialmente il post con id: " + req.params.id);
+  //Converto parametro dinamico da string a number
+  const id = parseInt(req.params.id);
+
+  //Cerchiamo il post tramite l'id
+  const post = postsList.find((post) => post.id === id);
+
+  //Controlliamo se post è undefined
+  if (!post) {
+    //Imposto lo status 404 (perchè in EXPRESS lo status di default è 200)
+    res.status(404);
+
+    //JSON con l'errore
+    return res.json({
+      error: "Not Found",
+      message: "Post non trovato",
+    });
+  }
+
+  //Modifichiamo i valori del post richiesto (Se i valori sono presenti nella body request)
+  if (req.body.title) {
+    post.title = req.body.title;
+  } else {
+    post.title = post.title;
+  }
+
+  //VERSIONE CON OPERATORE TERNARIO
+  req.body.content ? post.content = req.body.content : post.content = post.content;
+  req.body.image ? post.image = req.body.image : post.image = post.image;
+  req.body.tags ? post.tags = req.body.tags : post.tags = post.tags;
+
+  //Return post modificato
+  res.send(post);
+
+  console.log(post);
 }
 
 //DESTROY
