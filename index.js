@@ -3,6 +3,7 @@ const app = express();
 const port = 3000;
 const postsRouter = require("./routers/posts");
 const errorsHandler = require("./middlewares/errorsHandler");
+const notFound = require("./middlewares/notFound");
 
 //Abilito funzioni extra di express (Middleware che permette la gestione di assets statici)
 app.use(express.static("./public"));
@@ -18,6 +19,8 @@ app.get("/", (req, res) => {
 
 //Abilito il nostro custom global middleware "errorsHandler"
 app.use(errorsHandler);
+//Custom middleware per rotte inesistenti
+app.use(notFound);
 
 //Server start (port: 3000)
 app.listen(port, () => {
