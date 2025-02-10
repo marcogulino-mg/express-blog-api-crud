@@ -5,7 +5,8 @@ const postsList = require("../data/posts");
 function index(req, res) {
   //postFiltered equals to postsList
   let postFiltered = postsList;
-
+  //Debug error
+  // throw new Error("Errore di Test");
   //Find posts with a certain tag
   if (req.query.tags) {
     postFiltered = postsList.filter((post) =>
